@@ -1,4 +1,6 @@
 module ElasticRecord
+  # Methods related to inspecting and defining mappings, as well as typecasting
+  # properties during serialization and deserialization.
   module Mapping
 
     attr_writer :index_name

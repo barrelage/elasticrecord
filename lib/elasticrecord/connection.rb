@@ -2,6 +2,8 @@ require 'connection_pool'
 require 'stretcher'
 
 module ElasticRecord
+  # Methods involving a model's connection to ElasticSearch, its indices, and
+  # types.
   module Connection
 
     def connection

@@ -1,4 +1,5 @@
 module ElasticRecord
+  # Methods related to record persistence in ElasticSearch.
   module Persistence
 
     class << self
@@ -9,6 +10,7 @@ module ElasticRecord
 
     end
 
+    # Class methods related to record persistence.
     module ClassMethods
 
       def init_with attributes

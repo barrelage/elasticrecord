@@ -1,4 +1,5 @@
 module ElasticRecord
+  # Methods involving search and document retrieval against ElasticSearch.
   module Querying
 
     def all limit = 20

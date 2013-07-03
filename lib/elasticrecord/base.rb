@@ -5,6 +5,10 @@ require 'elasticrecord/querying'
 require 'elasticrecord/persistence'
 
 module ElasticRecord
+  # = Elastic Record
+  #
+  # Elastic Record provides an Active Model abstraction for ElasticSearch
+  # documents, as well as a simple DSL for defining mappings.
   class Base
 
     extend ActiveModel::Callbacks
