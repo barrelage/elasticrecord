@@ -2,13 +2,22 @@ require 'active_model'
 require 'elasticrecord/connection'
 require 'elasticrecord/mapping'
 require 'elasticrecord/querying'
+require 'elasticrecord/persistence'
 
 module ElasticRecord
   class Base
 
+    extend ActiveModel::Callbacks
+    extend ActiveModel::Translation
+    include ActiveModel::Model
+    include ActiveModel::Dirty
+    include ActiveModel::Serialization
+    include ActiveModel::Serializers::JSON
+
     extend ElasticRecord::Connection
     extend ElasticRecord::Mapping
     extend ElasticRecord::Querying
+    include ElasticRecord::Persistence
 
     class << self
 
@@ -39,15 +48,7 @@ module ElasticRecord
 
     end
 
-    include ActiveModel::Model
-    include ActiveModel::Dirty
-    include ActiveModel::Serialization
-    include ActiveModel::Serializers::JSON
-
-    extend ActiveModel::Callbacks
-    extend ActiveModel::Translation
-
-    define_model_callbacks :save, :destroy
+    define_model_callbacks :create, :update, :save, :destroy
 
     attr_reader :attributes, :meta
 
@@ -58,6 +59,7 @@ module ElasticRecord
 
     def initialize params = {}
       @attributes, @meta = Hashie::Mash.new, Hashie::Mash.new
+      @new_record, @destroyed = true, false
       self.attributes = params
     end
 
@@ -115,7 +117,9 @@ module ElasticRecord
 
     def save
       return false unless valid?
-      run_callbacks(:save) { persist }
+      run_callbacks :save do
+        run_callbacks(new_record? ? :create : :update) { persist }
+      end
       true
     end
 
@@ -140,10 +144,12 @@ module ElasticRecord
           self.attributes = conn.post(attributes).except('ok')
         end
       end
+      @new_record = false
     end
 
     def remove
       with_connection { |conn| conn.delete id }
+      @destroyed = true
     end
 
     def with_connection &block

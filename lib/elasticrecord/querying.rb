@@ -18,13 +18,13 @@ module ElasticRecord
     def find id
       with_type do |type|
         raw = type.get id, true
-        new raw._source.merge raw.except('_source', 'exists')
+        init_with raw._source.merge raw.except('_source', 'exists')
       end
     end
 
     def search(*args)
       with_type do |type|
-        type.search(*args).results.map(&method(:new))
+        type.search(*args).results.map(&method(:init_with))
       end
     end
 
