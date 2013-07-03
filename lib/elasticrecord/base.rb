@@ -95,7 +95,7 @@ module ElasticRecord
     alias [] read_attribute
 
     def write_attribute attr, value
-      return meta[attr] = value if attr.to_s.starts_with? '_'
+      return meta[attr] = value if attr.to_s.start_with? '_'
       attribute_will_change! attr.to_s unless value == self[attr]
       attributes[attr] = value
     end
