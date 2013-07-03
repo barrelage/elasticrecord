@@ -120,12 +120,6 @@ module ElasticRecord
       ]
     end
 
-    def destroy
-      return false unless id.present?
-      run_callbacks(:destroy) { remove }
-      true
-    end
-
     def save
       return false unless valid?
       run_callbacks :save do
@@ -146,6 +140,12 @@ module ElasticRecord
     def update_attributes! attrs
       self.attributes = attrs
       save!
+    end
+
+    def destroy
+      return false unless id.present?
+      run_callbacks(:destroy) { remove }
+      true
     end
 
     private
