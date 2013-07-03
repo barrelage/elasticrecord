@@ -6,11 +6,11 @@ require 'elasticrecord/querying'
 module ElasticRecord
   class Base
 
-    class << self
+    extend ElasticRecord::Connection
+    extend ElasticRecord::Mapping
+    extend ElasticRecord::Querying
 
-      include ElasticRecord::Connection
-      include ElasticRecord::Mapping
-      include ElasticRecord::Querying
+    class << self
 
       def create attrs
         new(attrs).tap(&:save)
