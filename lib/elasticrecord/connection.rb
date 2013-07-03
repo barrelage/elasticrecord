@@ -26,7 +26,7 @@ module ElasticRecord
     end
 
     def with_connection &block
-      connection_pool.with &block
+      connection_pool.with(&block)
     end
 
     def with_index &block
