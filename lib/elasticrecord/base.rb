@@ -1,8 +1,9 @@
 require 'active_model'
 require 'elasticrecord/connection'
+require 'elasticrecord/errors'
 require 'elasticrecord/mapping'
-require 'elasticrecord/querying'
 require 'elasticrecord/persistence'
+require 'elasticrecord/querying'
 
 module ElasticRecord
   # = Elastic Record
@@ -27,6 +28,10 @@ module ElasticRecord
 
       def create attrs
         new(attrs).tap(&:save)
+      end
+
+      def create! attrs
+        new(attrs).tap(&:save!)
       end
 
       def i18n_scope
@@ -129,9 +134,18 @@ module ElasticRecord
       true
     end
 
+    def save!
+      save or raise RecordInvalid, self
+    end
+
     def update_attributes attrs
       self.attributes = attrs
       save
+    end
+
+    def update_attributes! attrs
+      self.attributes = attrs
+      save!
     end
 
     private
