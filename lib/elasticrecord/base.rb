@@ -48,7 +48,7 @@ module ElasticRecord
 
     end
 
-    define_model_callbacks :create, :update, :save, :destroy
+    define_model_callbacks :initialize, :create, :update, :save, :destroy
 
     attr_reader :attributes, :meta
 
@@ -58,9 +58,11 @@ module ElasticRecord
     end
 
     def initialize params = {}
-      @attributes, @meta = Hashie::Mash.new, Hashie::Mash.new
-      @new_record, @destroyed = true, false
-      self.attributes = params
+      run_callbacks :initialize do
+        @attributes, @meta = Hashie::Mash.new, Hashie::Mash.new
+        @new_record, @destroyed = true, false
+        self.attributes = params
+      end
     end
 
     #--
