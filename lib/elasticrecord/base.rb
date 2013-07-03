@@ -174,7 +174,7 @@ module ElasticRecord
     end
 
     def with_connection &block
-      self.class.with_type &block
+      self.class.with_type(&block)
     end
 
   end
