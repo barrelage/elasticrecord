@@ -165,6 +165,7 @@ module ElasticRecord
         end
       end
       @new_record = false
+      true
     end
 
     def remove
