@@ -143,7 +143,7 @@ module ElasticRecord
     end
 
     def destroy
-      return false unless id.present?
+      return false if destroyed? || id.blank?
       run_callbacks(:destroy) { remove }
       true
     end
