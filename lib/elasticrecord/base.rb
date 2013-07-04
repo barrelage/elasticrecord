@@ -26,11 +26,11 @@ module ElasticRecord
 
     class << self
 
-      def create attrs
+      def create attrs = {}
         new(attrs).tap(&:save)
       end
 
-      def create! attrs
+      def create! attrs = {}
         new(attrs).tap(&:save!)
       end
 
