@@ -58,7 +58,7 @@ module ElasticRecord
     end
 
     define_model_callbacks :initialize, only: :after
-    define_model_callbacks :create, :update, :save, :destroy
+    define_model_callbacks :validation, :create, :update, :save, :destroy
 
     attr_reader :attributes, :meta
 
@@ -118,6 +118,10 @@ module ElasticRecord
         self.class.name,
         attributes.map { |k, v| " #{k}: #{v.inspect}" }.join(',')
       ]
+    end
+
+    def valid?(*)
+      run_callbacks(:validation) { super }
     end
 
     def save

@@ -17,6 +17,8 @@ class TestRecord < ElasticRecord::Base
   validates_presence_of :subject
   %w[
     after_initialize
+    before_validation
+    after_validation
     before_save
     after_save
     before_create

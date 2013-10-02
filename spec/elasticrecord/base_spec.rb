@@ -32,7 +32,6 @@ describe ElasticRecord::Base do
   end
 
   describe '.update_mapping' do
-
     context 'without an existing mapping' do
       before { TestRecord.with_index { |index| index.delete } }
 
@@ -119,6 +118,17 @@ describe ElasticRecord::Base do
 
     context 'with the same value' do
       its(:changed_attributes) { should be_empty }
+    end
+  end
+
+  describe '#valid?' do
+    let(:record) { TestRecord.new subject: 'Hello, World' }
+    subject(:valid?) { record.valid? }
+
+    it 'runs validation callbacks' do
+      valid?
+      record.before_validation.should eq true
+      record.after_validation.should eq true
     end
   end
 
