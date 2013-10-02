@@ -116,7 +116,7 @@ module ElasticRecord
     def inspect
       "#<%s%s>" % [
         self.class.name,
-        attributes.map { |k, v| " #{k}: #{v.inspect}" }.join(',')
+        meta.merge(attributes).map { |k, v| " #{k}: #{v.inspect}" }.join(',')
       ]
     end
 
