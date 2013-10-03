@@ -3,10 +3,18 @@ module ElasticRecord
   # properties during serialization and deserialization.
   module Mapping
 
-    attr_writer :index_name
+    attr_reader :wildcard
 
-    def index_name
+    def index_name *args
       @index_name ||= model_name.plural
+      return @index_name if args.empty?
+      @index_name, options = args
+      @wildcard = options[:wildcard] if options && options.key?(:wildcard)
+    end
+
+    def current_index_name record = nil
+      return index_name unless wildcard
+      index_name.sub '*', wildcard.call(record)
     end
 
     def type_name

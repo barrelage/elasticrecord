@@ -39,7 +39,7 @@ module ElasticRecord
       end
 
       def update_mapping
-        with_index do |index|
+        with_index current_index_name do |index|
           if index.exists?
             index.type(type_name).put_mapping type_name => mapping
           else
@@ -178,7 +178,7 @@ module ElasticRecord
     end
 
     def with_connection &block
-      self.class.with_type(&block)
+      self.class.with_type self.class.current_index_name(self), &block
     end
 
   end

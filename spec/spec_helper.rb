@@ -12,6 +12,7 @@ class TestRecord < ElasticRecord::Base
   mapping do
     property :subject
     property :publish_at, type: :date
+    _timestamp enabled: true
   end
 
   validates_presence_of :subject

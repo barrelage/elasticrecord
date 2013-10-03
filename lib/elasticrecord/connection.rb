@@ -29,15 +29,15 @@ module ElasticRecord
       connection_pool.with(&block)
     end
 
-    def with_index &block
+    def with_index index = index_name, &block
       connection_pool.with do |conn|
-        yield conn.index(index_name)
+        yield conn.index index
       end
     end
 
-    def with_type &block
+    def with_type index = index_name, &block
       connection_pool.with do |conn|
-        yield conn.index(index_name).type(type_name)
+        yield conn.index(index).type(type_name)
       end
     end
 
