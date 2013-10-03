@@ -15,12 +15,12 @@ module ElasticRecord
     end
 
     def establish_connection options = {}
-      url     = options.fetch(:url, 'http://localhost:9200')
-      pool    = options.fetch(:pool, 5)
-      timeout = options.fetch(:timeout, 5)
+      url = options[:url] || 'http://localhost:9200'
+      pool = options[:pool] || 5
+      timeout = options[:timeout] || 5
 
       @connection_pool.shutdown if @connection_pool
-      @connection_pool = ConnectionPool.new(size: pool, timeout: timeout) do
+      @connection_pool = ConnectionPool.new size: pool, timeout: timeout do
         Stretcher::Server.new url
       end
     end

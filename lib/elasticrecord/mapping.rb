@@ -69,7 +69,7 @@ module ElasticRecord
     end
 
     def typecast prop, value
-      type = properties[prop.to_sym].try(:[], :type).try(:to_sym)
+      type = properties[prop.to_sym].try(:[], :type).try :to_sym
       types[type].call value
     end
 

@@ -23,7 +23,7 @@ module ElasticRecord
       end
     end
 
-    def search(*args)
+    def search *args
       with_type do |type|
         type.search(*args).results.map(&method(:init_with))
       end
