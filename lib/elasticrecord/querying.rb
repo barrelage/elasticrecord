@@ -1,3 +1,5 @@
+require 'elasticrecord/collection'
+
 module ElasticRecord
   # Methods involving search and document retrieval against ElasticSearch.
   module Querying
@@ -23,9 +25,9 @@ module ElasticRecord
       end
     end
 
-    def search *args
+    def search args
       with_type do |type|
-        type.search(*args).results.map(&method(:init_with))
+        Collection.new self, type, args
       end
     end
 
